@@ -1,14 +1,15 @@
 const express = require('express');
 const handlebars = require('express-handlebars');
-const PORT = parseInt(process.argv[2]) || parseInt(process.env.APP_PORT) || 3000;
 
 const app = express();
 
-app.engine('hbs',
-  handlebars({ defaultLayout: "default.hbs" })
-)
+// app.set('views', __dirname + '/views');
 app.set('view engine', 'hbs')
-app.set('views', __dirname + '/views');
+app.engine('hbs',
+handlebars({ defaultLayout: "default.hbs" })
+)
+
+const PORT = parseInt(process.argv[2]) || parseInt(process.env.APP_PORT) || 3000;
 
 // .html
 // app.get("/", (req, res) => {
@@ -17,12 +18,20 @@ app.set('views', __dirname + '/views');
 //   res.sendFile(__dirname + '/static/index.html');
 // })
 
+app.use(express.static(__dirname + '/static'));
+// console.info(__dirname + '/static');
+
 // .hbs
-app.use("/", (req, res) => {
+app.get("/", (req, res) => {
+  let twoDiceImage = '2_dice.png'
   res.status(200)
   res.type('text/html')
-  res.render('default')
+  res.render('first_page', {
+    twoDiceImage: twoDiceImage
+  })
+  // console.info("1")
 })
+// console.info("2")
 
 // .html
 // app.get("/roll", (req, res) => {
@@ -32,25 +41,29 @@ app.use("/", (req, res) => {
 // })
 
 let pictures = ["one", "two", "three", "four", "five", "six"];
-let number = Math.floor(Math.random * 6) + 1;
-let image = `${number}.png`;
+let randomPicture = Math.floor(Math.random() * (pictures.length + 1));
+let image = `${pictures[randomPicture]}.png`;
+// console.info(__dirname + ${'/static/${image}`)
 
 // .hbs
 app.get("/roll", (req, res) => {
+  // console.info(image)
+  // console.info("hi")
   res.status(200)
   res.type('text/html')
   res.render('roll', {
-    image: image
+    image: image,
   });
 })
 
-app.use(express.static(__dirname + '/static'));
-
 app.use(
   (req, resp) => {
+    let twoDiceImage = '2_dice.png'
     resp.status(404);
     resp.type("text/html");
-    resp.sendFile(__dirname + '/static/index.html');
+    resp.render('first_page', {
+      twoDiceImage: twoDiceImage
+    });
   })
 
 app.listen(PORT, () => {
