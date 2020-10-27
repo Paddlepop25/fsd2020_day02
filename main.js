@@ -29,9 +29,7 @@ app.get("/", (req, res) => {
   res.render('first_page', {
     twoDiceImage: twoDiceImage
   })
-  // console.info("1")
 })
-// console.info("2")
 
 // .html
 // app.get("/roll", (req, res) => {
@@ -41,18 +39,20 @@ app.get("/", (req, res) => {
 // })
 
 let pictures = ["one", "two", "three", "four", "five", "six"];
-let randomPicture = Math.floor(Math.random() * (pictures.length + 1));
-let image = `${pictures[randomPicture]}.png`;
-// console.info(__dirname + ${'/static/${image}`)
+let randomNumber1 = Math.floor(Math.random() * (pictures.length));
+let randomNumber2 = Math.floor(Math.random() * (pictures.length));
+let image1 = `${pictures[randomNumber1]}.png`;
+let image2 = `${pictures[randomNumber2]}.png`;
+console.info(image1)
+console.info(image2)
 
 // .hbs
 app.get("/roll", (req, res) => {
-  // console.info(image)
-  // console.info("hi")
   res.status(200)
   res.type('text/html')
   res.render('roll', {
-    image: image,
+    image1: image1,
+    image2: image2,
   });
 })
 
@@ -67,5 +67,5 @@ app.use(
   })
 
 app.listen(PORT, () => {
-  console.info(`Application started on port ${PORT} at ${new Date()}`);
+  console.info(`Application started on port ${PORT} at ${(new Date()).toString().slice(0, 15)}`);
 });
