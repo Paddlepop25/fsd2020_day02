@@ -27,13 +27,7 @@ app.engine('hbs', handlebars({ defaultLayout: 'defaultChuk.hbs' }));
 app.set('view engine', 'hbs');
 
 // configure express
-app.get('/',
-(req, res) => {
-  // status 200
-  res.status(200)
-  res.type('text/html')
-  res.render('indexChuk')
-});
+app.get(['/', '/index.html'], landingPage);
 
 app.get('/roll', 
   (req, res) => {
@@ -48,12 +42,6 @@ app.get('/roll',
     res.render('rollChuk', { d1, d2 })
   }
 )
-
-// redirect don't need to put status because redirect IS a status
-// INCOMPLETE
-// app.use((req, res) => {
-//   res.redirect('/')
-// })
 
 // load/mount the static resources directory (this is a middleware)
 // you can load more than one folder for express to look into
