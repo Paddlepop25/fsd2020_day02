@@ -18,6 +18,13 @@ const PORT = parseInt(process.argv[2]) || parseInt(process.env.APP_PORT) || 3000
 //   res.sendFile(__dirname + '/static/index.html');
 // })
 
+// app.use(
+//   (req, resp, next) => {
+//       console.info(`${new Date()}: ${req.method} ${req.originalUrl}`)
+//       next()
+//   }
+// )
+
 app.use(express.static(__dirname + '/static'));
 // console.info(__dirname + '/static');
 
@@ -38,23 +45,23 @@ app.get("/", (req, res) => {
 //   res.sendFile(__dirname + '/static/roll.html');
 // })
 
-let pictures = ["one", "two", "three", "four", "five", "six"];
-let randomNumber1 = Math.floor(Math.random() * (pictures.length));
-let randomNumber2 = Math.floor(Math.random() * (pictures.length));
-let image1 = `${pictures[randomNumber1]}.png`;
-let image2 = `${pictures[randomNumber2]}.png`;
-console.info(image1)
-console.info(image2)
 
 // .hbs
 app.get("/roll", (req, res) => {
+  let pictures = ["one", "two", "three", "four", "five", "six"];
+  let randomNumber1 = Math.floor(Math.random() * (pictures.length));
+  let randomNumber2 = Math.floor(Math.random() * (pictures.length));
+  let image1 = `${pictures[randomNumber1]}.png`;
+  let image2 = `${pictures[randomNumber2]}.png`;
+  console.info(image1)
+  console.info(image2)
   res.status(200)
   res.type('text/html')
   res.render('roll', {
     image1: image1,
     image2: image2,
   });
-})
+});
 
 app.use(
   (req, resp) => {
